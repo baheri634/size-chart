@@ -178,19 +178,6 @@
       <button id="bodyNext" style="margin-top:20px; width:100%; background:#e90670; color:#fff; border:none; border-radius:8px; padding:15px; font-weight:600; font-size:15px; cursor:pointer;">Continue</button>
     </div>
 
-    <div id="step-sil" class="quiz-step hidden">
-      <button class="back-btn" data-back="auto" style="background:none; border:none; color:#9a9a9a; font-size:13px; cursor:pointer; padding:0; margin:0 0 14px;">&#8592; Back</button>
-      <p style="text-transform:uppercase; letter-spacing:0.1em; font-size:11px; color:#9a9a9a; margin:0 0 6px;">Question 4</p>
-      <h3 style="font-weight:600; font-size:22px; color:#232323; margin:0 0 6px;">Which silhouette are you after?</h3>
-      <p style="font-size:13px; color:#8a8a8a; margin:0 0 18px;">Different cuts sit differently, so we tune the size to the shape.</p>
-      <div class="sil-grid" style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px;">
-        <button class="opt-btn" data-sil="straight" style="text-align:left; border:1.5px solid #e6e6e6; border-radius:10px; padding:16px 18px; background:#fff; cursor:pointer;"><span style="font-weight:600; font-size:15px; color:#232323; display:block;">Straight</span><span style="font-size:12px; color:#8a8a8a;">Straight-cut kurtas and dresses</span></button>
-        <button class="opt-btn" data-sil="aline" style="text-align:left; border:1.5px solid #e6e6e6; border-radius:10px; padding:16px 18px; background:#fff; cursor:pointer;"><span style="font-weight:600; font-size:15px; color:#232323; display:block;">A-line</span><span style="font-size:12px; color:#8a8a8a;">Gently flared from the bust</span></button>
-        <button class="opt-btn" data-sil="anarkali" style="text-align:left; border:1.5px solid #e6e6e6; border-radius:10px; padding:16px 18px; background:#fff; cursor:pointer;"><span style="font-weight:600; font-size:15px; color:#232323; display:block;">Anarkali</span><span style="font-size:12px; color:#8a8a8a;">Fitted bodice, full flare</span></button>
-        <button class="opt-btn" data-sil="lehenga" style="text-align:left; border:1.5px solid #e6e6e6; border-radius:10px; padding:16px 18px; background:#fff; cursor:pointer;"><span style="font-weight:600; font-size:15px; color:#232323; display:block;">Lehenga</span><span style="font-size:12px; color:#8a8a8a;">Fitted blouse with a flared skirt</span></button>
-      </div>
-    </div>
-
     <div id="step-bmeasure" class="quiz-step hidden">
       <button class="back-btn" data-back="shop" style="background:none; border:none; color:#9a9a9a; font-size:13px; cursor:pointer; padding:0; margin:0 0 14px;">&#8592; Back</button>
       <div style="display:flex; align-items:center; justify-content:space-between; margin:0 0 18px; gap:12px; flex-wrap:wrap;">
@@ -216,14 +203,13 @@
     </div>
 
     <div id="step-result" class="quiz-step hidden">
-      <div style="text-align:center;">
-        <p id="resultKicker" style="text-transform:uppercase; letter-spacing:0.12em; font-size:11px; color:#9a9a9a; margin:0 0 8px;"></p>
-        <div id="resultSize" style="font-weight:700; font-size:60px; line-height:1.05; color:#e90670; margin:0 0 6px;"></div>
-        <p id="resultMap" style="font-size:14px; color:#6b6b6b; margin:0 0 20px;"></p>
-        <div id="resultNote" style="display:none; background:#fbf3f7; border:1px solid #f2dae8; border-radius:10px; padding:16px 18px; text-align:left; font-size:13.5px; line-height:1.6; color:#7a4c62; margin:0 0 20px;"></div>
-        <a id="shopBtn" href="#" style="display:block; background:#e90670; color:#fff; border-radius:8px; padding:15px; font-weight:600; font-size:15px; margin:0 0 10px;"></a>
-        <div style="display:flex; gap:10px; justify-content:center; margin-bottom:22px;">
-          <a href="#charts" style="flex:1; border:1.5px solid #ddd; color:#232323; border-radius:8px; padding:12px; font-size:13.5px; font-weight:500;">View full chart</a>
+      <div style="text-align:center;" id="resultInner">
+        <p id="resultKicker" style="text-transform:uppercase; letter-spacing:0.12em; font-size:11px; color:#9a9a9a; margin:0 0 6px;"></p>
+        <p id="resultBasis" style="font-size:13.5px; color:#8a8a8a; margin:0 0 20px;"></p>
+        <div id="recsList" style="display:flex; flex-direction:column; gap:10px; text-align:left;"></div>
+        <div id="resultNote" style="display:none; background:#fbf3f7; border:1px solid #f2dae8; border-radius:10px; padding:16px 18px; text-align:left; font-size:13.5px; line-height:1.6; color:#7a4c62; margin:16px 0 0;"></div>
+        <div style="display:flex; gap:10px; justify-content:center; margin:20px 0 22px;">
+          <a href="#charts" style="flex:1; text-align:center; border:1.5px solid #ddd; color:#232323; border-radius:8px; padding:12px; font-size:13.5px; font-weight:500;">View full chart</a>
           <button id="restartBtn" style="flex:1; border:1.5px solid #ddd; background:#fff; color:#232323; border-radius:8px; padding:12px; font-size:13.5px; font-weight:500; cursor:pointer;">Start over</button>
         </div>
         <div style="border-top:1px solid #eee; padding-top:18px; text-align:left;">
@@ -458,47 +444,58 @@
   function showStep(id){
     $$('.quiz-step').forEach(function(s){s.classList.add('hidden');});
     $('#'+id).classList.remove('hidden');
-    var pct={'step-shop':0,'step-know':20,'step-measure':45,'step-body':45,'step-sil':75,'step-bmeasure':50,'step-result':100}[id]||0;
+    var pct={'step-shop':0,'step-know':25,'step-measure':60,'step-body':60,'step-bmeasure':55,'step-result':100}[id]||0;
     $('#progress').style.width=pct+'%';
     S.step=id;
   }
 
   function bodyTypeFrom(bust,hip){var base=bust+4; if(Math.abs(hip-base)<=1)return 'straight'; return hip>base?'triangle':'inverted';}
   function bodyName(bt){return bt==='triangle'?'triangle':bt==='inverted'?'inverted triangle':'straight';}
-  function silName(s){return {straight:'straight',aline:'a-line',anarkali:'anarkali',lehenga:'lehenga'}[s]||'';}
-  function silArticle(s){return (s==='aline'||s==='anarkali')?'an':'a';}
-  function roundClosest(target,col){
-    var rows=DATA.tops.rows,best=0,bd=Infinity;
-    for(var i=0;i<rows.length;i++){var d=Math.abs(rows[i][col]-target); if(d<bd){bd=d;best=i;}}
-    return {size:rows[best][0], beyond: target>rows[rows.length-1][col]+0.5};
+  function idxByCol(valIn,col){var rows=DATA.tops.rows; for(var i=0;i<rows.length;i++){if(rows[i][col]>=valIn)return i;} return -1;}
+  var SILS=[
+    {key:'straight',name:'Straight',desc:'Straight-cut kurtas & dresses'},
+    {key:'aline',name:'A-line',desc:'Gently flared from the waist'},
+    {key:'anarkali',name:'Anarkali',desc:'Fitted bodice, full flare'},
+    {key:'lehenga',name:'Lehenga',desc:'Fitted blouse, flared skirt'}
+  ];
+  function recFromIdx(def,idx,custom){
+    if(custom||idx<0) return {name:def.name,desc:def.desc,sizeLabel:'Custom fit',sizeSize:'14px',isCustom:true,shopUrl:'https://www.meerasplussizestore.com/pages/how-to-measure',shopLabel:'Customise'};
+    var size=DATA.tops.rows[idx][0];
+    return {name:def.name,desc:def.desc,size:size,sizeLabel:size,sizeSize:'20px',isCustom:false,shopUrl:base('tops')+'?filter.v.option.size='+encodeURIComponent(size),shopLabel:'Shop '+size};
   }
-  function customResult(bt,sil){
-    return {custom:true,cat:'tops',size:'Custom fit',
-      map:'Based on a '+bodyName(bt)+' shape in '+silArticle(sil)+' '+silName(sil)+' silhouette',
-      note:'For this shape and silhouette, a customised size gives the cleanest fit through the waist and hip. Select "Customised" as your size when you shop, or book a quick call and we will tailor it to you.'};
-  }
-  function sizeResult(size,bt,sil){
+  function buildTopsRecs(){
+    var rows=DATA.tops.rows,last=rows.length-1,basis,decide;
+    if(S.know){
+      var bust=toIn(S.m.bust),hip=toIn(S.m.hips);
+      basis='your measurements';
+      var bIdx=idxByCol(bust+1,1),hIdx=idxByCol(hip+2,3);
+      decide=function(key){
+        if(bIdx<0||hIdx<0)return {custom:true};
+        if(key==='straight'){ if(hIdx-bIdx>=2)return {custom:true}; return {idx:Math.max(bIdx,hIdx)}; }
+        if(key==='aline')return {idx:Math.max(bIdx,Math.max(0,hIdx-1))};
+        return {idx:bIdx};
+      };
+    } else {
+      var uIdx=rows.findIndex(function(r){return r[0]===S.usualSize;});
+      basis='a '+bodyName(S.bodyType)+' shape, usual size '+S.usualSize;
+      decide=function(key){
+        if(key==='straight')return S.bodyType==='triangle'?{custom:true}:{idx:uIdx};
+        if(key==='aline')return {idx:S.bodyType==='triangle'?Math.min(uIdx+1,last):uIdx};
+        return {idx:uIdx};
+      };
+    }
     var note='';
     if(S.concerns&&S.concerns.trim()) note='You told us: "'+S.concerns.trim()+'". For a concern like this we suggest booking a customised size so we can tailor the fit, or reach our team on the number below.';
-    return {custom:false,cat:'tops',size:size,map:'Recommended for a '+bodyName(bt)+' shape in '+silArticle(sil)+' '+silName(sil)+' silhouette',note:note};
-  }
-  function computeTops(sil){
-    if(S.know){
-      var bust=toIn(S.m.bust), hip=toIn(S.m.hips);
-      var bt=bodyTypeFrom(bust,hip);
-      var rec = (bt==='triangle'&&sil==='straight') ? roundClosest(hip+3.5,3) : roundClosest(bust+0.5,1);
-      if(rec.beyond) return customResult(bt,sil);
-      return sizeResult(rec.size,bt,sil);
-    }
-    if(S.bodyType==='triangle'&&sil==='straight') return customResult(S.bodyType,sil);
-    return sizeResult(S.usualSize,S.bodyType,sil);
+    var recs=SILS.map(function(def){var d=decide(def.key); return recFromIdx(def,d.idx,d.custom);});
+    return {kind:'tops',basis:basis,note:note,recs:recs};
   }
   function computeBottoms(){
-    var rows=DATA.bottoms.rows, w=toIn(S.m.bwaist), h=toIn(S.m.bhip);
+    var rows=DATA.bottoms.rows, w=toIn(S.m.bwaist), h2=toIn(S.m.bhip);
     function idxFor(v,c){for(var i=0;i<rows.length;i++){if(rows[i][c]>=v)return i;}return -1;}
-    var iw=idxFor(w,1), ih=idxFor(h,2);
-    if(iw<0||ih<0) return {custom:true,cat:'bottoms',size:'Custom fit',map:'Beyond our standard chart',note:'Your measurements sit beyond our standard bottoms chart. Select "Customised" as your size when you shop and we will tailor it to you.'};
-    return {custom:false,cat:'bottoms',size:rows[Math.max(iw,ih)][0],map:'Recommended on your waist and hip',note:''};
+    var iw=idxFor(w,1), ih=idxFor(h2,2);
+    if(iw<0||ih<0) return {kind:'bottoms',basis:'your waist and hip',note:'',recs:[{name:'Bottoms',desc:'Pants, palazzos, skirts',sizeLabel:'Custom fit',sizeSize:'14px',isCustom:true,shopUrl:'https://www.meerasplussizestore.com/pages/how-to-measure',shopLabel:'Customise'}]};
+    var size=rows[Math.max(iw,ih)][0];
+    return {kind:'bottoms',basis:'your waist and hip',note:'',recs:[{name:'Bottoms',desc:'Pants, palazzos, skirts',size:size,sizeLabel:size,sizeSize:'20px',isCustom:false,shopUrl:base('bottoms')+'?filter.v.option.size='+encodeURIComponent(size),shopLabel:'Shop '+size}]};
   }
   function base(cat){
     if(cat==='bottoms')return 'https://www.meerasplussizestore.com/collections/bottoms-wear';
@@ -507,15 +504,18 @@
   }
   function showResult(r){
     S.result=r;
-    $('#resultKicker').textContent = r.custom ? (r.cat==='kids'?'Kids sizing':'Our recommendation') : 'Your recommended size';
-    $('#resultSize').textContent = r.size;
-    $('#resultSize').style.fontSize = (r.custom?'34px':'60px');
-    $('#resultMap').textContent = r.map;
+    $('#resultKicker').textContent = r.kind==='kids' ? 'Kids sizing' : (r.recs.length>1?'Your recommended sizes':'Your recommended size');
+    $('#resultBasis').textContent = 'Based on '+r.basis;
+    var list=$('#recsList'); list.innerHTML='';
+    r.recs.forEach(function(rec){
+      var row=document.createElement('div');
+      row.style.cssText='display:flex; align-items:center; justify-content:space-between; gap:14px; border:1px solid #eee; border-radius:12px; padding:14px 16px;';
+      row.innerHTML='<div style="min-width:0;"><p style="margin:0 0 2px; font-weight:600; font-size:15px; color:#232323;">'+rec.name+'</p><p style="margin:0; font-size:12px; color:#9a9a9a;">'+rec.desc+'</p></div>'+
+        '<div style="display:flex; align-items:center; gap:12px; flex-shrink:0;"><span style="font-weight:700; font-size:'+rec.sizeSize+'; color:#e90670; white-space:nowrap;">'+rec.sizeLabel+'</span>'+
+        '<a href="'+rec.shopUrl+'" style="border:1.5px solid #e90670; color:#e90670; border-radius:8px; padding:9px 14px; font-size:12.5px; font-weight:600; white-space:nowrap;">'+rec.shopLabel+'</a></div>';
+      list.appendChild(row);
+    });
     if(r.note){$('#resultNote').style.display='block'; $('#resultNote').textContent=r.note;} else $('#resultNote').style.display='none';
-    var s=$('#shopBtn');
-    if(r.cat==='kids'){s.href=base('kids'); s.textContent='Shop kids styles';}
-    else if(r.custom){s.href='https://www.meerasplussizestore.com/pages/how-to-measure'; s.textContent='Book a customised size';}
-    else {s.href=base(r.cat)+'?filter.v.option.size='+encodeURIComponent(r.size); s.textContent='Shop '+(r.cat==='bottoms'?'bottoms':'styles')+' in size '+r.size;}
     renderChart(); showStep('step-result');
   }
 
@@ -537,7 +537,7 @@
 
   $$('[data-shop]').forEach(function(b){b.addEventListener('click',function(){
     S.shoppingFor=b.getAttribute('data-shop');
-    if(S.shoppingFor==='kids'){ S.category='kids'; showResult({custom:true,cat:'kids',size:'See Kids chart',map:'Kids sizing follows age, with regular and plus options',note:'Match your child\u2019s chest and waist on the Kids chart below, then shop the kids collection.'}); }
+    if(S.shoppingFor==='kids'){ S.category='kids'; showResult({kind:'kids',basis:'age-based sizing',note:'Match your child\u2019s chest and waist on the Kids chart below, then shop the kids collection.',recs:[{name:'Kids',desc:'Regular & plus, ages 3-10',sizeLabel:'See Kids chart',sizeSize:'14px',isCustom:true,shopUrl:'https://www.meerasplussizestore.com/collections/kids',shopLabel:'Shop kids'}]}); }
     else if(S.shoppingFor==='bottoms'){ S.focus='bwaist'; buildFields('#measureFieldsB',[{label:'Waist',ph:'e.g. 42',key:'bwaist'},{label:'Hip',ph:'e.g. 54',key:'bhip'}],'#measureTipB'); showStep('step-bmeasure'); }
     else showStep('step-know');
   });});
@@ -550,7 +550,7 @@
 
   $('#concernsA').addEventListener('input',function(e){S.concerns=e.target.value;});
   $('#concernsB').addEventListener('input',function(e){S.concerns=e.target.value;});
-  $('#measureNext').addEventListener('click',function(){ showStep('step-sil'); });
+  $('#measureNext').addEventListener('click',function(){ showResult(buildTopsRecs()); });
   $$('.body-btn').forEach(function(b){b.addEventListener('click',function(){
     S.bodyType=b.getAttribute('data-body');
     $$('.body-btn').forEach(function(x){x.style.borderColor='#e6e6e6';});
@@ -559,9 +559,8 @@
   });});
   $('#bodyNext').addEventListener('click',function(){
     if(!S.bodyType||!S.usualSize){ $('#bodyError').classList.remove('hidden'); return; }
-    showStep('step-sil');
+    showResult(buildTopsRecs());
   });
-  $$('[data-sil]').forEach(function(b){b.addEventListener('click',function(){ S.sil=b.getAttribute('data-sil'); showResult(computeTops(S.sil)); });});
   $('#submitBottoms').addEventListener('click',function(){ showResult(computeBottoms()); });
 
   $$('.cat-toggle button').forEach(function(b){b.addEventListener('click',function(){S.category=b.getAttribute('data-cat'); renderChart();});});
